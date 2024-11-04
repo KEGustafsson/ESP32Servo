@@ -55,7 +55,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 	#include "Arduino.h"
 #endif
 
-static const char* TAG = "ESP32Servo";
+static const char* ESP32_SERVO_TAG = "ESP32Servo";
 
 Servo::Servo()
 {		// initialize this channel with plausible values, except pin # (we set pin # when attached)
