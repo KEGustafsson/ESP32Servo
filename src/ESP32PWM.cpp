@@ -15,7 +15,7 @@ ESP32PWM * ESP32PWM::ChannelUsed[NUM_PWM]; // used to track whether a channel is
 long ESP32PWM::timerFreqSet[4] = { -1, -1, -1, -1 };
 int ESP32PWM::timerCount[4] = { 0, 0, 0, 0 };
 
-static const char* TAG = "ESP32PWM";
+static const char* ESP32_PWM_TAG = "ESP32PWM";
 
 // The ChannelUsed array elements are 0 if never used, 1 if in use, and -1 if used and disposed
 // (i.e., available for reuse)
