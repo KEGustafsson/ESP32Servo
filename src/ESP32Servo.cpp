@@ -81,7 +81,7 @@ int Servo::attach(int pin)
 
 int Servo::attach(int pin, int min, int max)
 {
-    ESP_LOGW(TAG, "Attempting to Attach servo on pin=%d min=%d max=%d",pin,min,max);
+    ESP_LOGW(ESP32_SERVO_TAG, "Attempting to Attach servo on pin=%d min=%d max=%d",pin,min,max);
 
 #ifdef ENFORCE_PINS
         // ESP32 Recommend only the following pins 2,4,12-19,21-23,25-27,32-33
@@ -107,13 +107,13 @@ if(
 #endif
 
 #if defined(CONFIG_IDF_TARGET_ESP32S2)
-				ESP_LOGE(TAG, "This pin can not be a servo: %d Servo available on: 1-21,26,33-42", pin);
+				ESP_LOGE(ESP32_SERVO_TAG, "This pin can not be a servo: %d Servo available on: 1-21,26,33-42", pin);
 #elif defined(CONFIG_IDF_TARGET_ESP32S3)
-			    ESP_LOGE(TAG, "This pin can not be a servo: %d Servo available on: 1-21,35-45,47-48", pin);
+			    ESP_LOGE(ESP32_SERVO_TAG, "This pin can not be a servo: %d Servo available on: 1-21,35-45,47-48", pin);
 #elif defined(CONFIG_IDF_TARGET_ESP32C3)
-				ESP_LOGE(TAG, "This pin can not be a servo: %d Servo available on: 1-10,18-21", pin);
+				ESP_LOGE(ESP32_SERVO_TAG, "This pin can not be a servo: %d Servo available on: 1-10,18-21", pin);
 #else
-				ESP_LOGE(TAG, "This pin can not be a servo: %d Servo available on: 2,4,5,12-19,21-23,25-27,32-33",pin);
+				ESP_LOGE(ESP32_SERVO_TAG, "This pin can not be a servo: %d Servo available on: 2,4,5,12-19,21-23,25-27,32-33",pin);
 #endif
             return 0;
         }
@@ -131,7 +131,7 @@ if(
         // if you want anything other than default timer width, you must call setTimerWidth() before attach
 
         pwm.attachPin(this->pinNumber,REFRESH_CPS, this->timer_width );   // GPIO pin assigned to channel
-        ESP_LOGW(TAG, "Success to Attach servo : %d on PWM %d",pin,pwm.getChannel());
+        ESP_LOGW(ESP32_SERVO_TAG, "Success to Attach servo : %d on PWM %d",pin,pwm.getChannel());
 
         return pwm.getChannel();
 }
