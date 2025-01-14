@@ -131,7 +131,7 @@ int ESP32PWM::allocatenext(double freq) {
 	} else {
 		return pwmChannel;
 	}
-	ESP_LOGE(TAG, 
+	ESP_LOGE(ESP32_PWM_TAG, 
 			"ERROR All PWM timers allocated! Can't accomodate %d Hz\r\nHalting...", freq);
 	while (1)
 		;
@@ -139,7 +139,7 @@ int ESP32PWM::allocatenext(double freq) {
 void ESP32PWM::deallocate() {
 	if (pwmChannel < 0)
 		return;
-	ESP_LOGE(TAG, "PWM deallocating LEDc #%d",pwmChannel);
+	ESP_LOGE(ESP32_PWM_TAG, "PWM deallocating LEDc #%d",pwmChannel);
 	timerCount[getTimer()]--;
 	if (timerCount[getTimer()] == 0) {
 		timerFreqSet[getTimer()] = -1; // last pwn closed out
@@ -154,7 +154,7 @@ void ESP32PWM::deallocate() {
 
 int ESP32PWM::getChannel() {
 	if (pwmChannel < 0) {
-		ESP_LOGE(TAG, "FAIL! must setup() before using get channel!");
+		ESP_LOGE(ESP32_PWM_TAG, "FAIL! must setup() before using get channel!");
 	}
 	return pwmChannel;
 }
@@ -316,18 +316,18 @@ void ESP32PWM::attachPin(uint8_t pin) {
 #endif
 		if(success)
 			return;
-		ESP_LOGE(TAG, "ERROR PWM channel failed to configure on!",pin);
+		ESP_LOGE(ESP32_PWM_TAG, "ERROR PWM channel failed to configure on!",pin);
 		return;
 	}
 		
 #if defined(CONFIG_IDF_TARGET_ESP32S2)
-						ESP_LOGE(TAG, "ERROR PWM channel unavailable on pin requested! %d PWM available on: 1-21,26,33-42",pin);
+						ESP_LOGE(ESP32_PWM_TAG, "ERROR PWM channel unavailable on pin requested! %d PWM available on: 1-21,26,33-42",pin);
 #elif defined(CONFIG_IDF_TARGET_ESP32S3)
-						ESP_LOGE(TAG, "ERROR PWM channel unavailable on pin requested! %d PWM available on: 1-21,35-45,47-48",pin);
+						ESP_LOGE(ESP32_PWM_TAG, "ERROR PWM channel unavailable on pin requested! %d PWM available on: 1-21,35-45,47-48",pin);
 #elif defined(CONFIG_IDF_TARGET_ESP32C3)
-						ESP_LOGE(TAG, "ERROR PWM channel unavailable on pin requested! %d PWM available on: 1-10,18-21",pin);
+						ESP_LOGE(ESP32_PWM_TAG, "ERROR PWM channel unavailable on pin requested! %d PWM available on: 1-10,18-21",pin);
 #else
-						ESP_LOGE(TAG, "ERROR PWM channel unavailable on pin requested! %d PWM available on: 2,4,5,12-19,21-23,25-27,32-33",pin);
+						ESP_LOGE(ESP32_PWM_TAG, "ERROR PWM channel unavailable on pin requested! %d PWM available on: 2,4,5,12-19,21-23,25-27,32-33",pin);
 #endif
 
 }
@@ -335,10 +335,10 @@ void ESP32PWM::attachPin(uint8_t pin, double freq, uint8_t resolution_bits) {
 
 	if (hasPwm(pin)){
 		int ret=setup(freq, resolution_bits);
-		ESP_LOGW(TAG, "Pin Setup %d with code %d",pin,ret);
+		ESP_LOGW(ESP32_PWM_TAG, "Pin Setup %d with code %d",pin,ret);
 	}
 	else
-		ESP_LOGE(TAG, "ERROR Pin Failed %d ",pin);
+		ESP_LOGE(ESP32_PWM_TAG, "ERROR Pin Failed %d ",pin);
 	attachPin(pin);
 }
 void ESP32PWM::detachPin(int pin) {
@@ -387,7 +387,7 @@ bool ESP32PWM::checkFrequencyForSideEffects(double freq) {
 			if (ChannelUsed[pwm]->getTimer() == getTimer()) {
 				double diff = abs(ChannelUsed[pwm]->myFreq - freq);
 				if (abs(diff) > 0.1) {
-					ESP_LOGW(TAG, 
+					ESP_LOGW(ESP32_PWM_TAG, 
 							"\tWARNING PWM channel %d	\
 							 shares a timer with channel %d\n	\
 							\tchanging the frequency to %d		\
